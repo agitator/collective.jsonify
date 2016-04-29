@@ -4,6 +4,12 @@ Changelog
 1.2 (unreleased)
 ----------------
 
+- Added `CHANGES.rst merge=union` to `.gitattributes`
+  [ale-rt]
+
+- Fix manifest
+  [ale-rt]
+
 - When doing an export with ``export_content`` and having constraints to skip
   items, still allow to walk into subitems of the skipped ones - except for
   skipped paths, where the whole path is skipped.
