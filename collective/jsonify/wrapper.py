@@ -2,6 +2,7 @@ from Acquisition import aq_base
 from DateTime import DateTime
 import datetime
 import os
+import json
 
 
 class Wrapper(dict):
@@ -452,6 +453,62 @@ class Wrapper(dict):
         self['_directly_provided'] = [
             it.__identifier__ for it in directlyProvidedBy(self.context)
         ]
+
+    def get_trackdata(self):
+        try:
+            self['soundcloud_id'] = self.context['soundcloud_id']
+
+            trackdata = self.context['trackdata']
+            self['attachments_uri'] = trackdata['attachments_uri']
+            self['video_url'] = trackdata['video_url']
+            self['release_month'] = trackdata['release_month']
+            self['label_name'] = trackdata['label_name']
+            self['duration'] = trackdata['duration']
+            self['favoritings_count'] = trackdata['favoritings_count']
+            self['state'] = trackdata['state']
+            self['downloadable'] = trackdata['downloadable']
+            self['sharing'] = trackdata['sharing']
+            self['description'] = trackdata['description']
+            self['secret_token'] = trackdata['secret_token']
+            self['release_day'] = trackdata['release_day']
+            self['kind'] = trackdata['kind']
+            self['purchase_title'] = trackdata['purchase_title']
+            self['key_signature'] = trackdata['key_signature']
+            self['user'] = trackdata['user']
+            self['permalink'] = trackdata['permalink']
+            self['kind'] = trackdata['kind']
+            self['uri'] = trackdata['uri']
+            # self['avatar_url'] = trackdata['avatar_url']
+            self['permalink_url'] = trackdata['permalink_url']
+            self['id'] = trackdata['id']
+            self['isrc'] = trackdata['isrc']
+            self['download_count'] = trackdata['download_count']
+            self['release_year'] = trackdata['release_year']
+            self['playback_count'] = trackdata['playback_count']
+            self['artwork_url'] = trackdata['artwork_url']
+            self['bpm'] = trackdata['bpm']
+            self['original_content_size'] = trackdata['original_content_size']
+            self['comment_count'] = trackdata['comment_count']
+            self['tag_list'] = trackdata['tag_list']
+            self['embeddable_by'] = trackdata['embeddable_by']
+
+            # import ipdb; ipdb.set_trace()
+            self['protraxx_instruments'] = [x.replace('protraxx:instrument=', '')
+                                            for x in self['tag_list'].split(' ')
+                                            if x.startswith('protraxx:instrument=')]
+            self['protraxx_tags'] = [x.replace('protraxx:tag=', '')
+                                     for x in self['tag_list'].split(' ')
+                                     if x.startswith('protraxx:tag=')]
+            self['common_tags'] = [x for x in self['tag_list'].split(' ')
+                                     if not x.startswith('protraxx:')]
+
+            self['trackdata'] = json.dumps(self.context['trackdata'])
+
+
+            print self
+        except Exception, e:
+            print e
+            return
 
     def get_defaultview(self):
         """Default view of object
