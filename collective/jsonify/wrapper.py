@@ -454,6 +454,27 @@ class Wrapper(dict):
             it.__identifier__ for it in directlyProvidedBy(self.context)
         ]
 
+    def get_parent(self):
+        try:
+            self['item_caption'] = self.context.Title()
+            self['parent_uid'] = self.context.aq_parent.UID()
+            self['parent_path'] = self.context.aq_parent.getPhysicalPath()
+        except:
+            return
+
+    def get_dates(self):
+        try:
+            self['effective_date'] = self['effectiveDate']
+        except:
+            return
+
+    def get_state(self):
+        try:
+            # import ipdb; ipdb.set_trace()
+            self['last_state'] = self.context.portal_workflow.getInfoFor(self.context, 'review_state')
+        except:
+            return
+
     def get_trackdata(self):
         try:
             self['soundcloud_id'] = self.context['soundcloud_id']
