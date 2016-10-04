@@ -471,6 +471,7 @@ class Wrapper(dict):
     def get_state(self):
         try:
             # import ipdb; ipdb.set_trace()
+            self['formatted_release'] = self.context.release.strftime('%Y-%m-%d')
             self['last_state'] = self.context.portal_workflow.getInfoFor(self.context, 'review_state')
         except:
             return
@@ -507,6 +508,7 @@ class Wrapper(dict):
             self['release_year'] = trackdata['release_year']
             self['playback_count'] = trackdata['playback_count']
             self['artwork_url'] = trackdata['artwork_url']
+            self['buy_link'] = trackdata['purchase_url']
             self['bpm'] = trackdata['bpm']
             self['original_content_size'] = trackdata['original_content_size']
             self['comment_count'] = trackdata['comment_count']
